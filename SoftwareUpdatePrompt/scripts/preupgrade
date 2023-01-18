@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [[ -e /Library/LaunchDaemons/com.amaris.octory.helper.plist ]]; then
+    launchctl unload /Library/LaunchDaemons/com.amaris.octory.helper.plist
+    rm /Library/LaunchDaemons/com.amaris.octory.helper.plist
+fi
+if [[ -e /Library/PrivilegedHelperTools/com.amaris.octory.helper ]]; then
+    rm /Library/PrivilegedHelperTools/com.amaris.octory.helper
+fi
+
+if [[ -e /Library/LaunchDaemons/com.foursquare.updateos.plist ]]; then
+    launchctl unload /Library/LaunchDaemons/com.foursquare.updateos.plist
+    rm /Library/LaunchDaemons/com.foursquare.updateos.plist
+fi
+
+exit 0

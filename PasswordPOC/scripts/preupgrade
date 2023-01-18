@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Install Rosetta
+
+install_rosetta() {
+    arch=$(/usr/bin/arch)
+    rosettafolder="/Library/Apple/usr/share/rosetta"
+    isrosettarunning=$(/bin/launchctl list | /usr/bin/grep "com.apple.oahd-root-helper")
+    if [[ ! -e "$rosettafolder" && "$isrosettarunning" == "" ]]; then
+        if [[ "$arch" == "arm64" ]]; then
+            /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+        fi
+    fi
+}
+
+remove_launchdaemon() {
+    filename="${1}"
+    label="${2}"
+
+    if [[ -z "${filename}" || -z "${label}" ]]; then
+        echo "Usage: remove_launchdaemon [file] [label]"
+        return
+    fi
+    if /bin/launchctl list | /usr/bin/grep -q "${label}"; then
+        echo "Stopping launch daemon ${label}"
+        /bin/launchctl stop "${label}"
+        echo "Removing launch daemon ${label}"
+        /bin/launchctl remove "${label}"
+    fi
+    if [[ -e "${filename}" ]]; then
+        echo "Unloading launch daemon ${filename}"
+        /bin/launchctl unload -F "${filename}"
+        echo "Deleting ${filename}"
+        /bin/rm -f "${filename}"
+    fi
+}
+
+install_rosetta
+# Remove Octory helper daemon
+remove_launchdaemon "/Library/LaunchDaemons/com.amaris.octory.helper.plist" "com.amaris.octory.helper"
+
+# Remove the Octory helper binary
+if [[ -e /Library/PrivilegedHelperTools/com.amaris.octory.helper ]]; then
+    echo "Deleting /Library/PrivilegedHelperTools/com.amaris.octory.helper"
+    /bin/rm -f /Library/PrivilegedHelperTools/com.amaris.octory.helper
+fi
+
+# Remove the Octory presetup stage plist
+remove_launchdaemon "/Library/LaunchDaemons/com.foursquare.account_provisioning.plist" "com.foursquare.account_provisioning"
+
+# Remove the Octory starting stage plist
+remove_launchdaemon "/Library/LaunchDaemons/com.foursquare.app_provisioning.plist" "com.foursquare.app_provisioning"
+
+# Remove the Octory middle stage plist
+remove_launchdaemon "/Library/LaunchDaemons/com.foursquare.it_onboarding.plist" "com.foursquare.it_onboarding"
+
+# Remove the Octory inputs file
+if [[ -e "/Application Support/Octory/Resources/Inputs/inputs.plist" ]]; then
+    echo "Deleting file /Application Support/Octory/Resources/Inputs/inputs.plist"
+    /bin/rm -f "/Application Support/Octory/Resources/Inputs/inputs.plist"
+fi
+
+exit 0

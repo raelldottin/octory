@@ -1,0 +1,36 @@
+#!/bin/bash
+
+if [[ -e /Library/LaunchDaemons/com.amaris.octory.helper.plist ]]; then
+    while [[ -n "$(launchctl list | grep com.amaris.octory.helper.plist)" ]]; do
+        echo Stopping the helper launch daemon
+        launchctl stop /Library/LaunchDaemons/com.amaris.octory.helper.plist
+        echo Removing the helper lauch daemon
+        launchctl remove /Library/LaunchDaemons/com.amaris.octory.helper.plist
+    done
+    echo Deleting the helper launch daemon plist file
+    rm /Library/LaunchDaemons/com.amaris.octory.helper.plist
+fi
+
+if [[ -e /Library/PrivilegedHelperTools/com.amaris.octory.helper ]]; then
+    echo Deleting the helper binary file
+    rm /Library/PrivilegedHelperTools/com.amaris.octory.helper
+fi
+
+if [[ -e /Library/LaunchAgents/com.foursquare.itmenubar.plist ]]; then
+    echo Removing the menu bar launch agent
+    for uid in $(ps -axo uid,args | grep -i "[F]inder.app" | awk '{print $1}'); do
+        echo Unload launchagent for each logged in user: "$uid"
+        /bin/launchctl bootout gui/"$uid" /Library/LaunchAgents/com.foursquare.itmenubar.plist
+    done
+
+    while [[ -n "$(launchctl list | grep com.foursquare.itmenubar.plist)" ]]; do
+        echo Stopping the menu bar launch agent
+        launchctl stop com.foursquare.itmenubar.plist
+        echo Removing the menu bar launch agent
+        launchctl remove com.foursquare.itmenubar.plist
+    done
+    echo Deleting the menu bar launch agent plist file
+    rm /Library/LaunchAgents/com.foursquare.itmenubar.plist
+fi
+
+exit 0

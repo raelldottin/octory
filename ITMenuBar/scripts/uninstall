@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo Removing the menu bar launch agent
+for uid in $(ps -axo uid,args | grep -i "[F]inder.app" | awk '{print $1}'); do
+    while [[ -n "$(launchctl asuser "$uid" launchctl list | grep com.foursquare.itmenubar.plist)" ]]; do
+        echo Stopping the menu bar launch agent for "$(id -nu "$uid")"
+        launchctl asuser "$uid" launchctl stop com.foursquare.itmenubar.plist
+
+        echo Removing the menu bar launch agent for "$(id -nu "$uid")"
+        launchctl asuser "$uid" launchctl remove com.foursquare.itmenubar.plist
+        sleep 5
+    done
+done
+
+while [[ -n "$(launchctl list | grep com.foursquare.itmenubar.plist)" ]]; do
+    echo Stopping the menu bar launch agent
+    launchctl stop com.foursquare.itmenubar.plist
+    echo Removing the menu bar launch agent
+    launchctl remove com.foursquare.itmenubar.plist
+    sleep 5
+done
+
+if [[ -e /Library/LaunchAgents/com.foursquare.itmenubar.plist ]]; then
+    echo Deleting the menu bar launch agent plist file
+    rm /Library/LaunchAgents/com.foursquare.itmenubar.plist
+fi
+
+exit 0

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.foursquare.account_provisioning</string>
+	<key>Program</key>
+	<string>/Library/Application Support/Octory/Resources/Scripts/account_provisioning.sh</string>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardErrorPath</key>
+	<string>/var/tmp/com.foursquare.octory.err</string>
+	<key>StandardOutPath</key>
+	<string>/var/tmp/com.foursquare.octory.out</string>
+	<key>WorkingDirectory</key>
+	<string>/Library/Application Support/Octory/Resources/Scripts</string>
+</dict>
+</plist>

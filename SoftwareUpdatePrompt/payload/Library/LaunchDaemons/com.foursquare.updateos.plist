@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.foursquare.updateos.plist</string>
+    <key>Program</key>
+    <string>/Library/Application Support/Octory/Resources/Scripts/osupgrade.sh</string>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>StandardErrorPath</key>
+    <string>/var/tmp/com.foursquare.octory.err</string>
+    <key>StandardOutPath</key>
+    <string>/var/tmp/com.foursquare.octory.out</string>
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict>
+            <key>Hour</key>
+            <integer>12</integer>
+        </dict>
+    </array>
+</dict>
+</plist>

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Install the helper
+#cd "/Library/Application Support/Octory/HelperInstall"
+#./installHelper.sh
+
+# Set the permissions and ownership of the launchdaemon
+#chmod 644 /Library/LaunchDaemons/com.foursquare.octory_start.plist
+#chown root:wheel /Library/LaunchDaemons/com.foursquare.octory_start.plist
+
+# Load the octory helper daemon
+/bin/launchctl load -wF /Library/LaunchDaemons/com.amaris.octory.helper.plist
+
+# Load the launch daemon
+/bin/launchctl load -wF /Library/LaunchDaemons/com.foursquare.app_provisioning.plist

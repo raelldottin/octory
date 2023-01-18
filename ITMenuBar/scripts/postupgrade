@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Change permissions for launch agent log file
+chmod 666 /var/tmp/com.foursquare.octory.err
+chmod 666 /var/tmp/com.foursquare.octory.out
+
+# Load the octory helper daemon
+/bin/launchctl load -wF /Library/LaunchDaemons/com.amaris.octory.helper.plist
+
+# Run postupgrade actions for all logged in users.
+for pid_uid in $(ps -axo pid,uid,args | grep -i "[F]inder.app" | awk '{print $1 "," $2}'); do
+    uid=$(echo $pid_uid | /usr/bin/cut -d, -f2)
+    /bin/launchctl bootstrap gui/${uid} /Library/LaunchAgents/com.foursquare.itmenubar.plist
+done
+
+exit 0

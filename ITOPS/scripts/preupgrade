@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Install Rosetta
+arch=$(/usr/bin/arch)
+rosettafolder="/Library/Apple/usr/share/rosetta"
+isrosettarunning=$(/bin/launchctl list | /usr/bin/grep "com.apple.oahd-root-helper")
+if [[ ! -e "$rosettafolder" && "$isrosettarunning" == "" ]]; then
+	if [[ "$arch" == "arm64" ]]; then
+		/usr/sbin/softwareupdate --install-rosetta --agree-to-license
+	fi
+fi
+
+# Remove Octory helper daemon and helper binary
+if [[ -e /Library/LaunchDaemons/com.amaris.octory.helper.plist ]]; then
+	/bin/launchctl unload /Library/LaunchDaemons/com.amaris.octory.helper.plist
+	/bin/rm /Library/LaunchDaemons/com.amaris.octory.helper.plist
+	/bin/rm /Library/PrivilegedHelperTools/com.amaris.octory.helper
+fi
+
+# Remove the Octory daemon
+if [[ -e /Library/LaunchDaemons/com.foursquare.app_provisioning.plist ]]; then
+	/bin/launchctl unload /Library/LaunchDaemons/com.foursquare.app_provisioning.plist
+	/bin/rm /Library/LaunchDaemons/com.foursquare.app_provisioning.plist
+fi

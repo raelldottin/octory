@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Load the octory helper daemon
+/bin/launchctl load -wF /Library/LaunchDaemons/com.amaris.octory.helper.plist
+
+# Load the launch daemon
+/bin/launchctl load -wF /Library/LaunchDaemons/com.foursquare.updateos.plist
+
+exit 0

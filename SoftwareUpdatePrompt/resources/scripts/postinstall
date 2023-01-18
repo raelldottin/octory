@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source "/Library/Application Support/Octory/Resources/Scripts/stdfunc.sh"
+
+print_log "OS Update deferred." >> /var/tmp/os_update_deferral.log
