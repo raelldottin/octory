@@ -31,7 +31,7 @@ SoftwareUpdatePrompt is an app that launches at noon (configurable via a launchd
 
 - [Apple Rapid Security Response Documentation](https://support.apple.com/guide/deployment/rapid-security-responses-dep93ff7ea78/web)
 
-- [Bash Reference Manual] (https://www.gnu.org/software/bash/manual/bash.html)
+- [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html)
 
 ## Contributing
 
